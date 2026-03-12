@@ -56,8 +56,13 @@ public class DiscordGifExtract {
 
                     future.thenAccept(response -> {
                         String[] split = gif.getSrc().split("/");
+                        String fileName = split[split.length - 1];
+                        int qmi = fileName.indexOf('?');
+                        if (qmi != -1)
+                            fileName = fileName.substring(0, qmi);
+
                         try {
-                            Files.write(Path.of("gifs/" + split[split.length - 1]), response.body());
+                            Files.write(Path.of("gifs/" + fileName), response.body());
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
